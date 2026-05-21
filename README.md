@@ -24,9 +24,10 @@ This repo contains R code underpinning the analyses for our paper, submitted to 
 
 ```         
 ClimateConnectivity
-├── figures_tables      <--- .pdf files of figures and tables in the main text   
-├── masks               <--- .RDS files of masks used in computation and spatial plotting   
-└── supplementary       <--- supplementary materials for the manuscript 
+├── figures_tables      <--- .pdf files of figures and tables in the main text
+├── masks               <--- .RDS files of masks used in computation and spatial plotting
+├── helpers               <--- helper files used in computation and spatial plotting
+└── supplementary       <--- supplementary materials for the manuscript
 ```
 
 ## Workflow

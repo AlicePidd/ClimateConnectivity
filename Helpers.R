@@ -1,9 +1,11 @@
 # Helper functions: Climate connectivity
 	# For working with climate velocity trajectories
-  	# Written by Alice Pidd, May 2026
+  	# Written by Alice Pidd, Feb 2025
 
 
 # renv::dependencies("/Users/alicepidd/Documents/PhD/code/ClimateConnectivity")
+
+  disk <- "/Volumes/AliceShield/conn_data"
 
 
 # Packages ---------------------------------------------------------------------
@@ -17,6 +19,73 @@ pacman::p_load(pacman, tidyverse, purrr, furrr, ncdf4, terra, sf, tmap, beepr, t
                )
 
 
+# Functions --------------------------------------------------------------------
+  
+  ## To make folders at start of each script --------------------
+  
+  	make_folder <- function(d, m, fol_dir_name) {
+  	  
+  	  folder_path <- file.path(paste0(d, "/", m, "/", fol_dir_name))
+  	  if (!dir.exists(folder_path)) {
+  	    dir.create(folder_path, recursive = TRUE)
+  	    message("✅ Folder created: ", folder_path)
+  	  } else {
+  	    message("📂 Folder already exists: ", folder_path)
+  	  }
+  	  return(folder_path)
+  	}
+	
+
+  # Shapefiles - get, transform projection, crop --------------------
+
+  	get_shps <- function(shp_dir){
+  	  shp <- st_read(shp_dir) %>%
+  	    sf::st_transform(4326) %>%
+  	    sf::st_crop(ext(base_r))
+  	}
+
+
+
+  
+# Source folders, shapefiles, and helper files ---------------------------------
+
+  ## Folders --------------------
+  	
+    shps_fol <- make_folder(disk, "", "shapefiles")
+    helper_fol <- make_folder(disk, "VoCCtracers", "_helpers")
+
+    
+  ## Shapefiles --------------------
+    
+    e1 <- ext(105, 175, -50, -5) # EXTENT WITHOUT COCOS KEELING/XMAS ISLAND
+    base_r <- rast(ext = e1, res = 0.125, crs = "EPSG:4326") 
+    
+    aus_detailed_shp <- readRDS(paste0(shps_fol, "/aus_shapefile_detailed.RDS")) # Very detailed! Includes all islands offshore!
+    oceania_stanford_shp <- readRDS(paste0(shps_fol, "/oceania_shapefile.RDS"))
+    eez_shp <- readRDS(paste0(shps_fol, "/EEZ_shapefile.RDS"))
+    mpa_shp <- readRDS(paste0(shps_fol, "/mpas_joined_shapefile_newarea.RDS"))
+    
+    reez <- terra::rasterize(eez_shp, base_r) # Base raster for EEZ, land not masked out
+    rmpa <- terra::rasterize(mpa_shp, base_r, touches = TRUE) # Base raster for all MPAs, including GBR, land masked out
+    # raus <- terra::rasterize(aus_detailed_shp, base_r, touches = TRUE)
+    
+    
+  ## Helper files --------------------
+    
+    base_grid <- readRDS(paste0(shps_fol, "/base_polygonsf_grid_ID.RDS"))
+    mpa_ranges <- readRDS(paste0(helper_fol, "/MPA_ID_by_network.RDS"))
+    network_mpas <- readRDS(paste0(helper_fol, "/MPA_ID_by_network.RDS"))
+  
+  
+  
+  
+# Lists ------------------------------------------------------------------------
+  
+  ssp_list <- c("ssp126", "ssp245", "ssp370", "ssp585")
+  term_list <- c("recent", "near", "mid", "intermediate", "long")
+
+
+
 
 # Palettes ----------------------------------------------------------------
 
@@ -26,32 +95,6 @@ pacman::p_load(pacman, tidyverse, purrr, furrr, ncdf4, terra, sf, tmap, beepr, t
                 "ssp585" = rgb(153, 0, 2, maxColorValue = 255))
 
 
-
-
-# Folder function -------------------------------------------------------------
-  	
-	make_folder <- function(d, m, fol_dir_name) {
-	  
-	  folder_path <- file.path(paste0(d, "/", m, "/", fol_dir_name))
-	  if (!dir.exists(folder_path)) {
-	    dir.create(folder_path, recursive = TRUE)
-	    message("✅ Folder created: ", folder_path)
-	  } else {
-	    message("📂 Folder already exists: ", folder_path)
-	  }
-	  return(folder_path)
-	}
-	
-	
-
-	
-# Shapefiles - get, transform projection, crop  --------------------------------
-
-	get_shps <- function(shp_dir){
-	  shp <- st_read(shp_dir) %>%
-	    sf::st_transform(4326) %>%
-	    sf::st_crop(ext(base_r))
-	}
 
 
 		
