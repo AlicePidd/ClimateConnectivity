@@ -25,9 +25,7 @@ This repo contains R code underpinning the analyses for our paper, submitted to 
 ```         
 ClimateConnectivity
 ├── figures_tables      <--- .pdf files of figures and tables in the main text   
-├── figure_scripts      <--- code to generate figures in main text (outputs in \figures)  
-├── functions           <--- functions used in /scripts 
-├── scripts             <--- code used in the analysis 
+├── masks               <--- .RDS files of masks used in computation and spatial plotting   
 └── supplementary       <--- supplementary materials for the manuscript 
 ```
 
