@@ -4,7 +4,7 @@ This repo contains R code underpinning the analyses for our paper, submitted to 
 
 > Climate connectivity of Australia’s marine protected areas is driven by their size, proximity, latitude, and the pace of climate change
 
-**Authors:** Alice M. Pidd<sup>1</sup>, David S. Schoeman<sup>1,2</sup>, Anthony J. Richardson<sup>3,4</sup>, Eric Treml<sup>6</sup>, Kristine C. V. Buenafe<sup>3,4</sup>, Jason Everett<sup>3-5,7</sup>, Kylie L. Scales<sup>1</sup>
+**Authors:** Alice M. Pidd<sup>1</sup>, David S. Schoeman<sup>1,2</sup>, Anthony J. Richardson<sup>3,4</sup>, Eric Treml<sup>5</sup>, Kristine C. V. Buenafe<sup>3,4</sup>, Jason Everett<sup>3,4,6,7</sup>, Kylie L. Scales<sup>1</sup>
 
 <sup>1</sup> Ocean Futures Research Cluster, Global-Change Ecology Research Group, School of Science, Technology and Engineering, University of the Sunshine Coast.
 
@@ -14,9 +14,9 @@ This repo contains R code underpinning the analyses for our paper, submitted to 
 
 <sup>4</sup> School of the Environment, The University of Queensland, Brisbane, Queensland, Australia
 
-<sup>5</sup> Commonwealth Scientific and Industrial Research Organization (CSIRO) Environment, Queensland Biosciences Precinct (QBP), Queensland, Australia
+<sup>5</sup> Australian Institute of Marine Science (AIMS) and UWA Oceans Institute, The University of Western Australia, MO96, 35 Stirling Highway, Crawley, WA 6009
 
-<sup>6</sup> Australian Institute of Marine Science (AIMS) and UWA Oceans Institute, The University of Western Australia, MO96, 35 Stirling Highway, Crawley, WA 6009
+<sup>6</sup> Commonwealth Scientific and Industrial Research Organization (CSIRO) Environment, Queensland Biosciences Precinct (QBP), Queensland, Australia
 
 <sup>7</sup> Centre for Marine Science and Innovation (CMSI), The University of New South Wales, Sydney, New South Wales, Australia
 
