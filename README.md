@@ -2,7 +2,7 @@
 
 This repo contains R code underpinning the analyses for our paper, submitted to Global Change Biology (2026):
 
-> #### Climate connectivity of Australia’s marine protected areas is driven by their size, proximity, latitude, and the pace of climate change
+> ### Climate connectivity of Australia’s marine protected areas is driven by their size, proximity, latitude, and the pace of climate change
 >
 > *Alice M. Pidd*<sup>*1*</sup>*, David S. Schoeman*<sup>*1,2*</sup>*, Anthony J. Richardson*<sup>*3,4*</sup>*, Eric Treml*<sup>*5*</sup>*, Kristine C. V. Buenafe*<sup>*3,4*</sup>*, Jason Everett*<sup>*3,4,6,7*</sup>*, Kylie L. Scales*<sup>*1*</sup>
 >
