@@ -3,20 +3,13 @@
   	# Written by Alice Pidd, Feb 2025
 
 
-# renv::dependencies("/Users/alicepidd/Documents/PhD/code/ClimateConnectivity")
+# Packages and disk set --------------------------------------------------------
 
-  disk <- "/Volumes/AliceShield/conn_data"
+pacman::p_load(terra, sf, tidyverse, tmap, purrr, furrr, parallel, tictoc, beepr, gplots, stats, ggrepel, igraph, scales, svglite)
+
+disk <- "/Volumes/AliceShield/conn_data"
 
 
-# Packages ---------------------------------------------------------------------
-
-# pacman::p_load(
-#   dplyr, renv, sf, units, terra, 
-# )
-
-pacman::p_load(pacman, tidyverse, purrr, furrr, ncdf4, terra, sf, tmap, beepr, tictoc, viridis, viridisLite, parallel, patchwork, ggrepel, rmapshaper, lwgeom, progressr, data.table, vegan, vctrs, gplots, patchwork, mgcv, mgcViz, glmmTMB, marginaleffects, gratia, geosphere, igraph, ggraph, parallelly, rcartocolor, scico, NatParksPalettes, ggalluvial, MoMAColors, LaCroixColoR, rcartocolor, MetBrewer, MexBrewer, ghibli, ggthemes, feathers, futurevisions, ltc, paletteer, gglm, boot, GGally, MASSExtra, visreg, MoMAColors, khroma, PNWColors, patchwork, marginaleffects, 
-               glmmTMB, sdmTMB, gstat, spdep, DHARMa, performance, inlabru, modelbased # From the R workshop on spatiotemporal autocorrelation
-               )
 
 
 # Functions --------------------------------------------------------------------
@@ -36,7 +29,7 @@ pacman::p_load(pacman, tidyverse, purrr, furrr, ncdf4, terra, sf, tmap, beepr, t
   	}
 	
 
-  # Shapefiles - get, transform projection, crop --------------------
+  ## Shapefiles - get, transform projection, crop --------------------
 
   	get_shps <- function(shp_dir){
   	  shp <- st_read(shp_dir) %>%
@@ -87,14 +80,26 @@ pacman::p_load(pacman, tidyverse, purrr, furrr, ncdf4, terra, sf, tmap, beepr, t
 
 
 
-# Palettes ----------------------------------------------------------------
+# Palettes ---------------------------------------------------------------------
 
-  IPCC_pal <- c("ssp126" = rgb(0, 52, 102, maxColorValue = 255), 
+  distmatrix_pal <- c("grey96", rev(scico(99, palette = "navia"))) # Script 5
+  
+  hexpal <- c("#001219", "#005F73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#ae2012", "#9b2226") # Script 7
+  
+  restime_geoplot_pal <- c("#005F73", "#0a9396", "#94d2bd", "white") # Script 9
+  
+  IPCC_pal <- c("ssp126" = rgb(0, 52, 102, maxColorValue = 255), # Script 11
                 "ssp245" = rgb(112, 160, 205, maxColorValue = 255), 
                 "ssp370" = rgb(196, 121, 0, maxColorValue = 255), 
                 "ssp585" = rgb(153, 0, 2, maxColorValue = 255))
-
-
+  
+  freq_colours <- c("1" = "#FFEAB0", "2" = "#E77C24", "3" = "#B00F00", "4" = "#6F000D") # Script 14 
+  # freq_colours <- c("1" = "#E7E9BA", "2" = "#57cc99", "3" = "#35A0AC", "4" = "#005073")
+  
+  heatpal <- c("#001219", "#005F73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#ae2012", "#9b2226") # Script 16
+  # heatpal <- ltc("heatmap", 100, "continuous") 
+  
+  
 
 
 		

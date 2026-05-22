@@ -78,17 +78,16 @@
                     MPA_ID, NETNAME, IUCN, AREA_KM2, recalc_AREA_KM2, OBJECTID)
     m_grid_ID
     
-    tm_shape(eez_shp) +
-      tm_sf(fill = "white") +
-    tm_shape(aus_shp) +
-      tm_sf(fill = "grey80") +
-    tm_shape(m_grid_ID) +
-      tm_sf(fill = "black") +
-    tm_shape(m_grid_ID %>% filter(MPA_ID == 81)) +
-      tm_sf(fill = "red") +
-      tm_borders(col = "red")
-    
-    
+    # tm_shape(eez_shp) +
+    #   tm_sf(fill = "white") +
+    # tm_shape(aus_shp) +
+    #   tm_sf(fill = "grey80") +
+    # tm_shape(m_grid_ID) +
+    #   tm_sf(fill = "black") +
+    # tm_shape(m_grid_ID %>% filter(MPA_ID == 81)) +
+    #   tm_sf(fill = "red") +
+    #   tm_borders(col = "red")
+
     nrow(m_grid_ID) # 14379
     length(unique(mpa_shp$MPA_ID)) # Original number of MPAs 474
     length(unique(m_grid_ID$MPA_ID)) # Also 474, although I didn't really expect this?

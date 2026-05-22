@@ -5,14 +5,15 @@
 # Helpers ----------------------------------------------------------------------
 
   source("Helpers.R")
+  metric <- "VoCCtracers"
 
 
   
   
 # Folders ----------------------------------------------------------------------
   
-  in_fol <- make_folder(disk, "VoCCtracers", "0_VoCC_tracers") 
-  o_fol <- make_folder(disk, "VoCCtracers", "1_VoCC_tracers_cropped")
+  in_fol <- make_folder(disk, metric, "0_VoCC_tracers") 
+  o_fol <- make_folder(disk, metric, "1_VoCC_tracers_cropped")
   
   
   
