@@ -5,7 +5,7 @@
 
 # Packages and disk set --------------------------------------------------------
 
-pacman::p_load(terra, sf, tidyverse, tmap, purrr, furrr, parallel, tictoc, beepr, gplots, stats, ggrepel, igraph, scales, svglite)
+pacman::p_load(terra, sf, tidyverse, tmap, purrr, furrr, parallel, tictoc, beepr, gplots, stats, ggrepel, igraph, scales, svglite, scico)
 
 disk <- "/Volumes/AliceShield/conn_data"
 

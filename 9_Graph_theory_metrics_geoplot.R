@@ -66,7 +66,7 @@
     all_nodes <- map_dfr(node_files, readRDS) # Read in all the node files
     betweenness_range <- range(all_nodes$betweenness_inverse_weighted, na.rm = TRUE)
     betweenness_range # range: 0-42487 (normalised was 0.00-0.4322969)
-    restime_range <- range(res_dat$med_restime, na.rm = TRUE)
+    restime_range <- (range(res_dat$med_restime, na.rm = TRUE)-1)/12
     restime_range # range: 1-240
   
     
@@ -144,6 +144,7 @@
         group_by(ssp) %>%
         slice_max(med_restime, n = 10) %>%
         select(ssp,term, MPA_ID, med_restime, NETNAME, recalc_AREA_KM2) %>%
+        # mutate(med_restime_yr = ((med_restime - 1)/12) %>% round(., digits = 1)) %>%  # For yearly
         arrange(ssp, desc(med_restime))
       top_restime %>% print(n = 40)
 
@@ -153,6 +154,7 @@
         group_by(ssp, NETNAME) %>%
         slice_max(med_restime, n = 10) %>%
         select(ssp,term, MPA_ID, med_restime, NETNAME, recalc_AREA_KM2) %>%
+        # mutate(med_restime_yr = ((med_restime - 1)/12) %>% round(., digits = 1)) %>%  # For yearly
         arrange(ssp, desc(med_restime))
       top_net_restime %>% print(n = 2000)
       
@@ -203,6 +205,7 @@
         group_by(ssp) %>%
         slice_max(med_restime, n = 10) %>%
         select(ssp,term, MPA_ID, med_restime, NETNAME, recalc_AREA_KM2) %>%
+        # mutate(med_restime_yr = ((med_restime - 1)/12) %>% round(., digits = 1)) %>%  # For yearly
         arrange(ssp, desc(med_restime))
       top_restime_GBR %>% print(n = 40)
   
@@ -211,6 +214,15 @@
   
 # Plot network metrics geogrpahicaly with MPAs as points and geom_curves -------
 
+      node_file = node_files[8]
+      edge_file = edge_files[8]
+      top_n_labels = 10
+      edge_percentile = 0.75
+      edge_trunc = 40000
+      betweenness_transform = "log"
+      GBR = FALSE
+      
+      
   geoplot_GT_metrics <- function(node_file, 
                                  edge_file, 
                                  top_n_labels,
@@ -267,13 +279,13 @@
       edge_df <- readRDS(edge_file) %>% 
         filter(mpa_1 != mpa_2)  # Remove self-loops FIRST
       
-      node_df <- readRDS(node_file) %>% 
-        mutate(MPA_ID = as.numeric(MPA_ID)) %>%
-        left_join(res %>% dplyr::select(MPA_ID, med_restime, lon, lat, NETNAME), by = "MPA_ID")
-      
       res <- res_dat %>% 
         filter(ssp == .env$ssp & term == .env$term)
       
+      node_df <- readRDS(node_file) %>% 
+        mutate(MPA_ID = as.numeric(MPA_ID)) %>%
+        left_join(res %>% dplyr::select(MPA_ID, med_restime, lon, lat, NETNAME), by = "MPA_ID")
+
       bbox <- mpa_shp %>% 
         st_bbox()
       x_range <- bbox["xmax"] - bbox["xmin"]
@@ -331,19 +343,18 @@
         slice_max(plot_betweenness, n = 2)
       
       top_nodes_west <- node_df %>%
-        filter(NETNAME == "South-west" | NETNAME == "North-west"
-               ) %>%
+        filter(NETNAME == "South-west" | NETNAME == "North-west") %>%
         group_by(NETNAME) %>% 
         slice_max(plot_betweenness, n = 2)
+
+      # For conditional partitioning below in plot
+      # highlight <- GBR == TRUE &  ssp == "ssp126" & term == "mid-term"
+      highlight <- GBR == TRUE & term == "near-term"
       
       # geom_curve aesthetics
       other_edge_colour <- if (GBR == FALSE) "grey20" else if (highlight) "grey20" else "grey30"
       other_edge_alpha  <- if (GBR == FALSE) 0.7     else if (highlight) 0.6     else 0.7
       other_edge_lwd    <- if (GBR == FALSE) 0.3     else if (highlight) 0.3     else 0.15
-      
-      # For conditional partitioning below in plot
-      # highlight <- GBR == TRUE &  ssp == "ssp126" & term == "mid-term"
-      highlight <- GBR == TRUE & term == "near-term"
 
       # Base geoms for either GBR plots or whole network
       base_geoms <- if (highlight) { # Only plot the aus outline for highlight cases
@@ -370,7 +381,7 @@
         geom_point(data = node_df,
                    aes(x = lon, y = lat,
                        size = plot_betweenness,
-                       fill = med_restime),
+                       fill = (med_restime-1)/12), # Make it in years instead of months
                    shape = 21,
                    colour = "black",
                    stroke = 0.15,
@@ -438,7 +449,7 @@
                                 ) +
         scale_fill_gradientn(colours = rev(restime_geoplot_pal),
                              limits = restime_range,
-                             name = "Residence time\n(months)") +
+                             name = "Residence time\n(years)") + ## CHANGED TO YEARS, EASIER TO DIGEST
         theme_void() +
         labs(title = paste0("MPA connectivity under ", ssp, " (", term, ")"),
              subtitle = paste0(
@@ -453,11 +464,11 @@
       file_suffix <- paste0(if (highlight) "_LAND" else "", "_", betweenness_transform)
       
       if (GBR == TRUE) {
-        o_nm <- paste0(GT_plot_GBR_fol, "/geoplot_GT_", ssp, "_", term, "_GBR_", edge_percentile * 100, "th-pct", file_suffix, "_invweighted-betweenness.pdf")
+        o_nm <- paste0(GT_plot_GBR_fol, "/geoplot_GT_", ssp, "_", term, "_GBR_", edge_percentile * 100, "th-pct", file_suffix, "_invweighted-betweenness_yearlyrestime.pdf")
         ggsave(o_nm, plot = p, width = 14, height = 10, dpi = 300)
         message(paste0("✅ ", ssp, " ", term, " for the GBR done!", file_suffix))
       } else {
-        o_nm <- paste0(GT_plot_allnet_fol, "/geoplot_GT_", ssp, "_", term, "_", edge_percentile * 100, "th-pct", file_suffix, "_invweighted-betweenness.pdf")
+        o_nm <- paste0(GT_plot_allnet_fol, "/geoplot_GT_", ssp, "_", term, "_", edge_percentile * 100, "th-pct", file_suffix, "_invweighted-betweenness_yearlyrestime.pdf")
         ggsave(o_nm, plot = p, width = 14, height = 10, dpi = 300)
         message(paste0("✅ ", ssp, " ", term, " done!", file_suffix))
       }
