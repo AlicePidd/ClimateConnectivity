@@ -14,6 +14,8 @@
 # Folders ----------------------------------------------------------------------
 
   seq_fol <- make_folder(disk, metric, "2_sequence")
+  sf_fol <- make_folder(disk, metric, "2_sequence_sf")
+  prop_fol <- make_folder(disk, metric, "18_cumulative_traj_protection")
   propall_fol <- make_folder(disk, metric, "18_cumulative_traj_protection/all")
   propmpa_fol <- make_folder(disk, metric, "18_cumulative_traj_protection/mpa-starts")
   
@@ -25,11 +27,6 @@
     # ALL trajs
     # Only the trajs that start in MPAs
 
-  ssp = "ssp245"
-  term = "mid-term"
-  f <- files[1]
-  f
-  
   get_prop <- function(ssp, term){
     
     files <- dir(seq_fol, full.names = TRUE, pattern = ssp) %>% 
@@ -91,9 +88,7 @@
   
   ssp_list
   terms <- paste0(term_list, "-term")
-  terms
   combos <- expand.grid(ssp = ssp_list, term = terms, stringsAsFactors = FALSE)
-  combos
   # c <- combos %>% slice(1)
   
   tic()
@@ -101,27 +96,51 @@
   toc() # 28.31 mins
   beep(2)
 
-
     
   
   
-# Get starting points for all trajectories, filtered to 
+# Get starting points for all trajectories -------------------------------------
   
+  ## Checking that points are identical in their geometries across ESMs, so I can just take one set ----------
+    # # tic()
+    # f1 <- readRDS("/Volumes/AliceShield/conn_data/VoCCtracers/2_sequence_sf/traj_sequence_sf_ACCESS-CM2_ssp126_near-term.RDS") %>%
+    #   filter(Time == 0) %>%
+    #   dplyr::select(traj_ID, geometry) %>%
+    #   arrange(traj_ID)
+    # 
+    # f2 <- readRDS("/Volumes/AliceShield/conn_data/VoCCtracers/2_sequence_sf/traj_sequence_sf_NorESM2-LM_ssp585_long-term.RDS") %>%
+    #   filter(Time == 0) %>%
+    #   dplyr::select(traj_ID, geometry) %>%
+    #   arrange(traj_ID)
+    # 
+    # identical(f1, f2)
+    # # toc()
+    # beep(2)
+    
+    
+  ## Extract starting points of MPA-starters from one ESM per SSP-term combo ----------
+
+    sf_files <- dir(sf_fol, full.names = TRUE)
+    tic()
+    start_points <- readRDS(sf_files[1]) %>%
+      filter(Time == 0 & MPA_ID != -999) %>%
+      dplyr::select(traj_ID, geometry)
+    start_points
+    toc()
+    beep(2)
+    
+    saveRDS(start_points, paste0(prop_fol, "/trajectory_MPA-start_point_geometries.RDS"))
+    
   
-  
-  f1 <- readRDS("/Volumes/AliceShield/conn_data/VoCCtracers/2_sequence_sf/traj_sequence_sf_ACCESS-CM2_ssp245_mid-term.RDS") %>%
-    filter(Time == 0) %>%
-    dplyr::select(traj_ID, geometry) %>%
-    arrange(traj_ID)
-  
-  f2 <- readRDS("/Volumes/AliceShield/conn_data/VoCCtracers/2_sequence_sf/traj_sequence_sf_ACCESS-ESM1-5_ssp245_mid-term.RDS") %>%
-    filter(Time == 0) %>%
-    dplyr::select(traj_ID, geometry) %>%
-    arrange(traj_ID)
-  
-  identical(f1, f2)
-  
-  
-  
-  
+  ## Extract starting points of all trajectories from one ESM per SSP-term combo ----------
+    
+    tic()
+    start_points_all <- readRDS(sf_files[1]) %>%
+      filter(Time == 0) %>%
+      dplyr::select(traj_ID, geometry)
+    start_points_all
+    toc()
+    beep(2)
+    
+    saveRDS(start_points_all, paste0(prop_fol, "/trajectory_all-trajs_point_geometries.RDS"))
     
