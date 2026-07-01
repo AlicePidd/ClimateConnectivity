@@ -5,7 +5,7 @@
 
 # Packages and disk set --------------------------------------------------------
 
-pacman::p_load(terra, sf, tidyverse, tmap, purrr, furrr, parallel, tictoc, beepr, gplots, stats, ggrepel, igraph, scales, svglite, scico)
+pacman::p_load(terra, sf, tidyverse, tidyterra, tmap, purrr, furrr, parallel, tictoc, beepr, gplots, stats, ggrepel, igraph, scales, svglite, scico,, ggridges)
 
 disk <- "/Volumes/AliceShield/conn_data"
 
@@ -99,6 +99,7 @@ disk <- "/Volumes/AliceShield/conn_data"
   heatpal <- c("#001219", "#005F73", "#0a9396", "#94d2bd", "#e9d8a6", "#ee9b00", "#ca6702", "#ae2012", "#9b2226") # Script 16
   # heatpal <- ltc("heatmap", 100, "continuous") 
   
+  blueyellow_pal <- c("#32247C", "#294AD1", "#256FCF", "#1E92C2", "#21A7A5", "#52B47F", "#9DB561", "#F8B844", "#F7C93C")
   
 
 

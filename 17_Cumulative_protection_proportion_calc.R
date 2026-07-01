@@ -26,10 +26,11 @@
   ## Calculates the proportion of time each traj_ID spends in MPAs over its lifetime for:
     # ALL trajs
     # Only the trajs that start in MPAs
-
+  
   get_prop <- function(ssp, term){
     
     files <- dir(seq_fol, full.names = TRUE, pattern = ssp) %>% 
+      str_subset(., "recent-term", negate = TRUE) %>% 
       str_subset(., term)
     
     do_prop <- function(f) {
@@ -87,7 +88,7 @@
   }
   
   ssp_list
-  terms <- paste0(term_list, "-term")
+  terms <- paste0(term_list, "-term")[2:5]
   combos <- expand.grid(ssp = ssp_list, term = terms, stringsAsFactors = FALSE)
   # c <- combos %>% slice(1)
   
@@ -143,4 +144,68 @@
     beep(2)
     
     saveRDS(start_points_all, paste0(prop_fol, "/trajectory_all-trajs_point_geometries.RDS"))
+    
+    
+    
+    
+# Get proportion data ----------------------------------------------------------
+  
+  read_and_join <- function(f){
+    d <- readRDS(f)
+    return(d)
+  }
+  
+  
+  ## MPA-start files ---------
+  
+    mpa_files <- dir(propmpa_fol, full.names = TRUE, pattern = "MPAstarts") %>% 
+      str_subset(., "recent-term", negate = TRUE)
+    mpa_comb <- map(mpa_files, read_and_join) %>% 
+      bind_rows() %>% 
+      mutate(term_label = factor(term,
+                                 levels = c("near-term", 
+                                            "mid-term", "intermediate-term", 
+                                            "long-term"),
+                                 labels = c("Near-term\n(2021-2040)", 
+                                            "Mid-term\n(2041-2060)", 
+                                            "Intermediate-term\n(2061-2080)", 
+                                            "Long-term\n(2081-2100)")),
+             ssp = factor(ssp, levels = c("ssp126", "ssp245", "ssp370", "ssp585")))
+    mpa_comb
+
+    med_mpastart_prop <- mpa_comb %>% 
+      filter(total_steps == 241) %>%
+      group_by(traj_ID, term_label, ssp) %>%
+      reframe(med_prop = pmax(median(prop_in_MPA), 0.5), # Truncate from 0.5-1
+              group = "MPAstart")
+    med_mpastart_prop
+    saveRDS(med_mpastart_prop, paste0(prop_fol, "/median_proportions_of_protection_for_MPA-start_trajectories.RDS"))
+    
+  
+  ## All files ---------
+    
+    all_files <- dir(propall_fol, full.names = TRUE, pattern = "all") %>% 
+      str_subset(., "recent-term", negate = TRUE)
+    all_comb <- map(all_files, read_and_join) %>% 
+      bind_rows() %>% 
+      mutate(term_label = factor(term,
+                                 levels = c("near-term", 
+                                            "mid-term", "intermediate-term", 
+                                            "long-term"),
+                                 labels = c("Near-term\n(2021-2040)", 
+                                            "Mid-term\n(2041-2060)", 
+                                            "Intermediate-term\n(2061-2080)", 
+                                            "Long-term\n(2081-2100)")),
+             ssp = factor(ssp, levels = c("ssp126", "ssp245", "ssp370", "ssp585")))
+    all_comb
+
+    tic()
+    med_all_prop <- all_comb %>% 
+      filter(total_steps == 241) %>%
+      group_by(traj_ID, term_label, ssp) %>%
+      reframe(med_prop = pmin(median(prop_in_MPA), 0.5), # Truncate from 0-0.5
+              group = "Alltraj")
+    med_all_prop
+    toc() # 115 sec
+    saveRDS(med_all_prop, paste0(prop_fol, "/median_proportions_of_protection_for_ALL_trajectories.RDS"))
     
