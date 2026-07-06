@@ -38,7 +38,12 @@ ESMs of sea surface temperature (SST) were obtained from publicly available data
 
 Network analysis is underpinned by graph theory, which describes a 'network' of anything using nodes (points) and edges (links between points), and metrics to provide insight into the overall connectivity of the broader network.
 
-Here, we used network analysis metrics to describe the projected climate connectivity among MPAs under AR6 IPCC emissions scenarios. In this sense, MPAs represent nodes, and climate velocity trajectories represent edges linking MPAs through time, indicating pathways of analogous climate throughout the seascape. The connectivity of the overall MPA meta-network describes the climate connectivity. These metrics, and their graph level, used in this analysis include: - Total Strength (node-based metric) - Edge Strength (edge-based metric) - Betweenness Centrality (node-based metric) - Residence time (node-based metric, not a typical network analysis metric)
+Here, we used network analysis metrics to describe the projected climate connectivity among MPAs under AR6 IPCC emissions scenarios. In this sense, MPAs represent nodes, and climate velocity trajectories represent edges linking MPAs through time, indicating pathways of analogous climate throughout the seascape. The connectivity of the overall MPA meta-network describes the climate connectivity. These metrics, and their graph level, used in this analysis include: 
+- Total Strength (node-based metric)
+- Edge Strength (edge-based metric)
+- Betweenness Centrality (node-based metric)
+- Residence time (node-based metric, not a typical network analysis metric)
+- Cumulative trajectory protection (trajectory-based metric, not a typical network analysis metric)
 
 Background data and shapefiles included relate specifically to the case study region (here, continental Australia).
 
