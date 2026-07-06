@@ -22,7 +22,7 @@
 # Folders ----------------------------------------------------------------------
   
   in_fol <- make_folder(source_disk, metric, "2_sequence")
-  o_fol <- make_folder(source_disk, metric, "16_corridors")
+  corridor_fol <- make_folder(source_disk, metric, "16_corridors")
 
   
   
@@ -77,7 +77,7 @@
     unique(results$ssp)
     unique(results$esm)
 
-  saveRDS(results, paste0(o_fol, "/corridor_strength_allESMs_sequence.RDS"))
+  saveRDS(results, paste0(corridor_fol, "/corridor_strength_allESMs_sequence.RDS"))
   
 
   
@@ -85,7 +85,7 @@
 # Load the seq_key file, and split it up into stages (for multiple MPAs along a traj) ---------
   
   ## Read in all unique sequences and their frequencies of use by trajectories, per ssp-term-esm combo ------------
-    results <- readRDS(paste0(o_fol, "/corridor_strength_allESMs_sequence.RDS")) 
+    results <- readRDS(paste0(corridor_fol, "/corridor_strength_allESMs_sequence.RDS")) 
   
 
   ## Create network lookup using existing list ------------
@@ -145,7 +145,7 @@
         .groups = "drop"
       )
     dat_aggregated
-    saveRDS(dat_aggregated, paste0(o_fol, "/corridor_strength_allESMs_sequence_splitstaged.RDS"))
+    saveRDS(dat_aggregated, paste0(corridor_fol, "/corridor_strength_allESMs_sequence_splitstaged.RDS"))
 
   
     
@@ -153,7 +153,7 @@
 # Filter for MPA-to-MPA connectivity (2+ different MPAs) -----------------------
   ## This filters for MPA-to-MPA connectivity by keeping only trajs that visit 2 or more dif MPAs, and allows for Non-MPA visitation as a stepping stone between different MPAs
   
-  dat_aggregated <- readRDS(paste0(o_fol, "/corridor_strength_allESMs_sequence_splitstaged.RDS"))
+  dat_aggregated <- readRDS(paste0(corridor_fol, "/corridor_strength_allESMs_sequence_splitstaged.RDS"))
   dat_aggregated
   
   tic()
@@ -176,7 +176,7 @@
   message("Filtered out: ", nrow(dat_aggregated) - nrow(dat_MPAtoMPA), 
           " (", round(100 * (1 - nrow(dat_MPAtoMPA)/nrow(dat_aggregated)), 1), "%)")  # Filtered out: 49,516 (13%)
   
-  saveRDS(dat_MPAtoMPA, paste0(o_fol, "/corridor_strength_allESMs_sequence_MPAtoMPA.RDS"))
+  saveRDS(dat_MPAtoMPA, paste0(corridor_fol, "/corridor_strength_allESMs_sequence_MPAtoMPA.RDS"))
   
 
   
@@ -185,7 +185,7 @@
 # Summary stats for the top X% most frequented sequences ----------------------------------
   
   ##** In case it is needed for in-text. Don't need this for the density heatmap corridor plots**
-  dat_MPAtoMPA <- readRDS(paste0(o_fol, "/corridor_strength_allESMs_sequence_MPAtoMPA.RDS"))
+  dat_MPAtoMPA <- readRDS(paste0(corridor_fol, "/corridor_strength_allESMs_sequence_MPAtoMPA.RDS"))
 
   
   
@@ -210,19 +210,19 @@
   ## Top 75% of sequences ------------
     sum_stats_75 <- get_top_percent_sequences(dat_MPAtoMPA, 0.75)
     sum_stats_75
-    # saveRDS(sum_stats_75, paste0(o_fol, "/corridor_strength_allESMs_MPAtoMPA_top75pct.RDS"))
+    # saveRDS(sum_stats_75, paste0(corridor_fol, "/corridor_strength_allESMs_MPAtoMPA_top75pct.RDS"))
   
     
   ## Top 90% ** USED THIS** ------------
     sum_stats_90 <- get_top_percent_sequences(dat_MPAtoMPA, 0.90)
     sum_stats_90
-    saveRDS(sum_stats_90, paste0(o_fol, "/corridor_strength_allESMs_MPAtoMPA_top90pct.RDS")) ##**USED THIS**
+    saveRDS(sum_stats_90, paste0(corridor_fol, "/corridor_strength_allESMs_MPAtoMPA_top90pct.RDS")) ##**USED THIS**
   
     
   ## Top 95% ------------
     sum_stats_95 <- get_top_percent_sequences(dat_MPAtoMPA, 0.95)
     sum_stats_95
-    # saveRDS(sum_stats_95, paste0(o_fol, "/corridor_strength_allESMs_MPAtoMPA_top95pct.RDS"))
+    # saveRDS(sum_stats_95, paste0(corridor_fol, "/corridor_strength_allESMs_MPAtoMPA_top95pct.RDS"))
   
     
   ## Check how many sequences each represents ------------

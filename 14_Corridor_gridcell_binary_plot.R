@@ -13,8 +13,7 @@
   
 # Folders ----------------------------------------------------------------------
   
-  strength_agg_fol <- make_folder(disk, metric, "12_gridcell_strength_aggregated")
-  strength_bin_fol <- make_folder(disk, metric, "13_gridcell_strength_binary")
+  in_fol <- make_folder(disk, metric, "12_gridcell_strength_aggregated")
   plot_fol <- make_folder(disk, metric, "14_gridcell_binary_plot")
   
   
@@ -31,7 +30,7 @@
 # Plot these on top of each other ----------------------------------------------
   ## i.e., plot for each SSP for the whole study region, as BINARY layers
 
-  files <- dir(strength_agg_fol, full.names = TRUE, pattern = ".RDS")
+  files <- dir(in_fol, full.names = TRUE, pattern = ".RDS")
   files
   percentile <- 0.9 # 90th percentile (top 10%)
 

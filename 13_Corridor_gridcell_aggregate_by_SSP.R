@@ -66,12 +66,7 @@
   }
   
   tic()
-  walk(ssp_list, agg_dat) # Can't run in parallel, need 9.26 GiB memory (could only increase it to 10.00 MiB)
+  walk(ssp_list, agg_dat) # Can't run in parallel, need too much memory
   toc() # 3.2 hours total for the 4 SSPs
-  beep(5)
-  
+  beep(2)
 
-  
-  
-  
-  

@@ -13,22 +13,21 @@
 
 # Folders ----------------------------------------------------------------------
   
-  sum_fol <- make_folder(source_disk, metric, "4_pairs_mpa_summed")
-  GT_top_fol <- make_folder(source_disk, metric, "9_graph_theory_calc/top")
-  GT_lineplot_fol <- make_folder(source_disk, metric, "10_graph_theory_plot/lineplots")
+  in_fol <- make_folder(source_disk, metric, "9_graph_theory_calc/top")
+  o_fol <- make_folder(source_disk, metric, "10_graph_theory_plot/lineplots")
 
   
   
   
 # Line plots for the whole shebang ---------------------------------------------
 
-  all_top50 <- readRDS(paste0(GT_top_fol, "/GT_all_metrics_top50_MPAs_by_scenario_ALLnetworks.RDS"))
+  all_top50 <- readRDS(paste0(in_fol, "/GT_all_metrics_top50_MPAs_by_scenario_ALLnetworks.RDS"))
   all_top50
   dat <- all_top50
   metric_name <- "betweenness_inverse_weighted"
   metric_name <- "total_strength"
 
-  head(dat)
+  # head(dat)
   
   
   
@@ -152,7 +151,7 @@
       # 95% quantile ribbon - COLORED BY SSP
       geom_ribbon(data = median_trend,
                   aes(x = term, ymin = P025, ymax = P975, 
-                      group = 1, # So we only need 1 ribbon for all values
+                      group = 1, # Only need 1 ribbon for all values
                       fill = ssp), 
                   alpha = 0.1) +
       # IQR ribbon - COLORED BY SSP
@@ -187,8 +186,8 @@
   p2 <- plot_metric_trends(all_top50, "total_strength")
   p2
 
-  ggsave(paste0(GT_lineplot_fol, "/top50_betweenness-invweightednormalised_trends_finalVersion.pdf"), p1, width = 14, height = 10, dpi = 300)
-  ggsave(paste0(GT_lineplot_fol, "/top50_totalstrength_trends_finalVersion.pdf"), p2, width = 14, height = 10, dpi = 300)
+  ggsave(paste0(o_fol, "/top50_betweenness-invweightednormalised_trends_finalVersion.pdf"), p1, width = 14, height = 10, dpi = 300)
+  ggsave(paste0(o_fol, "/top50_totalstrength_trends_finalVersion.pdf"), p2, width = 14, height = 10, dpi = 300)
 
     
     

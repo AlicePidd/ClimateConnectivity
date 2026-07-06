@@ -18,9 +18,7 @@
 
 # Folders ----------------------------------------------------------------------
   
-  GT_node_fol <- make_folder(disk, metric, "9_graph_theory_calc/node")
-  GT_edge_fol <- make_folder(disk, metric, "9_graph_theory_calc/edge")
-  GT_network_fol <- make_folder(disk, metric, "9_graph_theory_calc/network")
+  in_fol <- make_folder(disk, metric, "9_graph_theory_calc/node")
   GT_top_fol <- make_folder(disk, metric, "9_graph_theory_calc/top")
   
   
@@ -28,7 +26,7 @@
   
 # ID the top 50 most important MPAs for each metric, across term and SSP -------
   
-  files <- dir(GT_node_fol, full.names = TRUE)
+  files <- dir(in_fol, full.names = TRUE)
   files
   
   # Get all the metrics for all the SSP and term combos

@@ -13,11 +13,9 @@
 
 # Folders ----------------------------------------------------------------------
   
-  sum_fol <- make_folder(disk, metric, "4_pairs_mpa_summed")
   GT_node_fol <- make_folder(disk, metric, "9_graph_theory_calc/node")
   GT_edge_fol <- make_folder(disk, metric, "9_graph_theory_calc/edge")
-  GT_network_fol <- make_folder(disk, metric, "9_graph_theory_calc/network")
-  
+
   restime_fol <- make_folder(disk, metric, "7_restime_esm")
   GT_plot_allnet_fol <- make_folder(disk, metric, "10_graph_theory_plot/geoplot/allnetworks")
   GT_plot_GBR_fol <- make_folder(disk, metric, "10_graph_theory_plot/geoplot/GBR")
@@ -37,8 +35,8 @@
       MPA_ID = as.character(MPA_ID)) %>%
     st_drop_geometry()
   
-  head(cent)
-  unique(cent$MPA_ID)
+  # head(cent)
+  # unique(cent$MPA_ID)
 
   
   
@@ -213,15 +211,6 @@
   
   
 # Plot network metrics geogrpahicaly with MPAs as points and geom_curves -------
-
-      node_file = node_files[8]
-      edge_file = edge_files[8]
-      top_n_labels = 10
-      edge_percentile = 0.75
-      edge_trunc = 40000
-      betweenness_transform = "log"
-      GBR = FALSE
-      
       
   geoplot_GT_metrics <- function(node_file, 
                                  edge_file, 

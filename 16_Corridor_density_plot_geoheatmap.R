@@ -14,7 +14,7 @@
   
 # Folders ----------------------------------------------------------------------
   
-  seq_fol <- make_folder(disk, metric, "2_sequence")
+  in_fol <- make_folder(disk, metric, "2_sequence")
   corridor_fol <- make_folder(disk, metric, "16_corridors")
   plot_fol <- make_folder(disk, metric, "17_corridors_plot_geo")
   
@@ -67,7 +67,7 @@
         
         term_traj_ids <- traj_id_lookup$traj_ID[traj_id_lookup$term == term_val]
         
-        term_files <- dir(seq_fol,
+        term_files <- dir(in_fol,
                           pattern = paste0("traj_sequence_.*_", ssp_val, "_", term_val, "\\.RDS"), 
                           full.names = TRUE)
         
@@ -141,10 +141,7 @@
   
   
 # Plot density heatmap for the whole of Australia, not just MPA-MPA, per SSP-term combo ------------
-  ssp_val <- "ssp245"
-  term_val <- "near-term"
-  pct <- "90"
-  
+
   plot_main_corridors_by_sspterm <- function(ssp_val, term_val, pct) {
     
     dat <- top90pct_seq
@@ -179,7 +176,7 @@
         
         term_traj_ids <- traj_id_lookup$traj_ID[traj_id_lookup$term == term_val]
         
-        term_files <- dir(seq_fol,
+        term_files <- dir(in_fol,
                           pattern = paste0("traj_sequence_.*_", ssp_val, "_", term_val, "\\.RDS"), 
                           full.names = TRUE)
         

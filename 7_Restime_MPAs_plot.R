@@ -107,10 +107,7 @@
       
       med_temporal_plot_data <- temporal_plot_data %>% 
         group_by(term_label, ssp) %>% 
-        reframe(mres = median(med_restime/12)#,
-                # q1 = quantile(med_restime/12, 0.25),
-                # q3 = quantile(med_restime/12, 0.75)
-                )
+        reframe(mres = median(med_restime/12))
       med_temporal_plot_data
     
     
@@ -122,9 +119,7 @@
       geom_vline(data = med_temporal_plot_data,
                  aes(xintercept = mres, colour = ssp), # horizontal line for median residence times per SSP
                  linewidth = 0.5,
-                 linetype = "dashed"#,
-                 # alpha = 0.8
-                 ) +
+                 linetype = "dashed") +
       geom_text(data = med_temporal_plot_data,
                 aes(y = Inf, x = mres, label = round(mres, 2)), # geom_hlines labelled with value
                 hjust = 1.1, vjust = -0.5,
@@ -136,17 +131,11 @@
       scale_color_manual(values = IPCC_pal,  # Original palette
                         labels = c("SSP5-8.5", "SSP3-7.0", "SSP2-4.5", "SSP1-2.6"),
                         name = "SSP") +
-      # scale_x_continuous(limits = c(0, 20)) +
       scale_y_continuous(expand = c(0, 0)) +
       theme_minimal(base_size = 11) +
-      theme(
-        strip.text = element_text(size = 10),
-        # strip.background = element_rect(fill = "gray90", color = NA),
-        panel.grid.minor = element_blank(),
-        # axis.text.y = element_blank(),
-        # axis.title.y = element_blank(),
-        legend.position = "bottom"
-      ) +
+      theme(strip.text = element_text(size = 10),
+            panel.grid.minor = element_blank(),
+            legend.position = "bottom") +
       labs(x = "Median residence time (years)",
            title = "Temporal patterns in trajectory residence time under climate futures")
     
