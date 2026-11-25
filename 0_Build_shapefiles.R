@@ -14,6 +14,7 @@
   stats_fol <- make_folder(disk, "VoCCtracers", "5_pairs_mpa_stats")
   
 
+  mpa_rast
   
     
 # Rasterize the MPAs to match the res of the trajectories (0.125°, ~150km^2) ---------

@@ -46,6 +46,7 @@ disk <- "/Volumes/AliceShield/conn_data"
   	
     shps_fol <- make_folder(disk, "", "shapefiles")
     helper_fol <- make_folder(disk, "VoCCtracers", "_helpers")
+    mask_fol <- make_folder(disk, "", "masks")
 
     
   ## Shapefiles --------------------
@@ -61,6 +62,8 @@ disk <- "/Volumes/AliceShield/conn_data"
     reez <- terra::rasterize(eez_shp, base_r) # Base raster for EEZ, land not masked out
     rmpa <- terra::rasterize(mpa_shp, base_r, touches = TRUE) # Base raster for all MPAs, including GBR, land masked out
     # raus <- terra::rasterize(aus_detailed_shp, base_r, touches = TRUE)
+    
+    land_mask <- readRDS(paste0(mask_fol, "/mask.RDS"))
     
     
   ## Helper files --------------------
